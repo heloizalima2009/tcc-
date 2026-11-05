@@ -3,90 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estúdio Fotográfico Premiado</title>
-    <!-- Vincula o arquivo CSS corrigido saindo da pasta html -->
-    <link rel="stylesheet" href="../css/jogo.css">
+    <title>Sessão de Fotos Animada - Premium Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0b0c10;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .game-container {
+            text-align: center;
+            max-width: 650px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00cec9;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #b2bec3;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .status-panel {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .status-box {
+            background: #1f2833;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid #00cec9;
+            width: 48%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Área do Palco do Jogo */
+        .stage-wrapper {
+            position: relative;
+            background: #111;
+            border: 4px solid #1f2833;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            height: 300px;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Controles de Disparo */
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            outline: none;
+        }
+
+        .btn-blue { background: #0984e3; box-shadow: 0 4px 15px rgba(9, 132, 227, 0.4); }
+        .btn-pink { background: #e84393; box-shadow: 0 4px 15px rgba(232, 67, 147, 0.4); }
+
+        .btn:hover:not(:disabled) { transform: translateY(-3px); opacity: 0.95; }
+        .btn:active:not(:disabled) { transform: translateY(-1px); }
+        .btn:disabled { background: #636e72; cursor: not-allowed; opacity: 0.5; box-shadow: none; }
+
+        /* Modal Premium de Cupom */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.93);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background: #1f2833;
+            border: 2px solid #00cec9;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        .modal h2 { color: #00cec9; margin-bottom: 15px; font-weight: 400; letter-spacing: 1px; }
+        .modal p { color: #b2bec3; line-height: 1.6; }
+
+        .coupon {
+            display: inline-block;
+            background: #0b0c10;
+            border: 2px dashed #fff;
+            padding: 14px 30px;
+            font-family: monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #55efc4;
+            margin-top: 20px;
+            letter-spacing: 3px;
+            border-radius: 4px;
+        }
+
+        .btn-close {
+            background: #fff; color: #000; border: none;
+            padding: 12px 35px; font-weight: bold; border-radius: 25px;
+            cursor: pointer; margin-top: 25px; font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+        .btn-close:hover { opacity: 0.85; }
+    </style>
 </head>
 <body>
 
-<div class="jogo-container">
-    <h2 class="titulo-jogo">📸 Sessão de Fotos Premiada</h2>
-    <p class="subtitulo-jogo">Nossas fotógrafas estão mudando de pose na galeria! Clique para registrar o clique perfeito!</p>
+    <div class="game-container">
+        <h1>Estúdio em Movimento 📸</h1>
+        <p>Ajuste o timing! Aperte o botão de captura quando o fotógrafo estiver exatamente sob a **LUZ CENTRAL**.</p>
 
-    <!-- Cenário de Galeria de Fotos e Estúdio Profissional -->
-    <div class="paisagem-estudio">
-        <div class="efeito-flash" id="flash"></div>
-        
-        <!-- Elementos Decorativos da Parede (Quadros de Fotos) -->
-        <div class="quadro q1"><div class="foto-interna">🌅</div></div>
-        <div class="quadro q2"><div class="foto-interna">✨</div></div>
-        <div class="quadro q3"><div class="foto-interna">🌿</div></div>
-        
-        <div class="fundo-estudio-infinito"></div>
-        <div class="holofote esquerdo"><div class="luz-cone"></div></div>
-        <div class="holofote direito"><div class="luz-cone"></div></div>
-
-        <!-- FOTÓGRAFA 1 (Esquerda): Gordinha, Vestido Triângulo Rosa com Braços e Pernas -->
-        <div class="fotografa gordinha" id="fotografa1">
-            <div class="cabelo-curto"></div>
-            <div class="cabeca-rosto">
-                <div class="olhos-vivos esquerdo"><div class="pupila"></div></div>
-                <div class="olhos-vivos direito"><div class="pupila"></div></div>
-                <div class="bochechas-rosadas"></div>
-                <div class="sorriso-fofo"></div>
-            </div>
-            <!-- Vestido em formato de Triângulo Largo -->
-            <div class="vestido-triangulo-largo"></div>
-            <div class="braco esquerdo"></div>
-            <div class="braco direito"></div>
-            <div class="perna-fofa esquerda"></div>
-            <div class="perna-fofa direita"></div>
-            <div class="camera-fofa c1">[ • ]</div>
+        <div class="status-panel">
+            <div class="status-box">Foco: <span id="lightStatus">Aguardando...</span></div>
+            <div class="status-box">Fotos Clássicas: <span id="score">0/3</span></div>
         </div>
 
-        <!-- FOTÓGRAFA 2 (Direita): Magra, Cabelo Comprido com Laço, Vestido Triângulo Roxo com Braços e Pernas -->
-        <div class="fotografa magrinha" id="fotografa2">
-            <div class="laco-rosa">🎀</div>
-            <div class="cabelo-comprido"></div>
-            <div class="cabeca-rosto">
-                <div class="olhos-vivos esquerdo"><div class="pupila"></div></div>
-                <div class="olhos-vivos direito"><div class="pupila"></div></div>
-                <div class="bochechas-rosadas"></div>
-                <div class="sorriso-fofo"></div>
-            </div>
-            <!-- Vestido em formato de Triângulo Estreito -->
-            <div class="vestido-triangulo-estreito"></div>
-            <div class="braco esquerdo"></div>
-            <div class="braco direito"></div>
-            <div class="perna-fofa esquerda"></div>
-            <div class="perna-fofa direita"></div>
-            <div class="camera-fofa c2">[ • ]</div>
+        <div class="stage-wrapper">
+            <canvas id="gameCanvas" width="600" height="300"></canvas>
         </div>
 
-        <!-- Card de Promoções Totalmente Centralizado -->
-        <div class="card-promocao" id="cardPromo">
-            <span class="selo-promo">PROMOÇÃO DESBLOQUEADA!</span>
-            <h3 id="texto-desconto">25% OFF</h3>
-            <p id="texto-brinde">+ 5 Fotos Brinde no Ensaio</p>
+        <div class="controls">
+            <button type="button" class="btn btn-blue" id="startBtn">Iniciar Ensaio</button>
+            <button type="button" class="btn btn-pink" id="cameraBtn" disabled>📸 BATER FOTO PROMO!</button>
         </div>
     </div>
 
-    <div class="area-controles">
-        <button id="btnDisparar" class="btn-disparar">📸 CAPTURAR SESSÃO!</button>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2>Captura Perfeita! 🎉🎞️</h2>
+            <p>Sua técnica e precisão garantiram um registro impecável do estúdio. Aproveite seu cupom exclusivo de retratos:</p>
+            <div class="coupon">FOTOANIMADA20</div>
+            <br>
+            <button type="button" class="btn-close" id="resetBtn">Voltar ao Portfólio</button>
+        </div>
     </div>
 
-    <!-- Formulário pós-clique -->
-    <div class="formulario-resgate" id="formResgate">
-        <h3>🎯 Enquadramento Perfeito!</h3>
-        <p class="subtitulo-jogo">Insira seu WhatsApp para que o nosso estúdio libere o código do seu presente:</p>
-        <form id="meuFormulario">
-            <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required><br>
-            <input type="tel" id="whatsappCliente" placeholder="Seu WhatsApp (com DDD)" required><br>
-            <button type="submit" class="btn-resgatar">Resgatar Presente</button>
-        </form>
-    </div>
-</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const startBtn = document.getElementById('startBtn');
+            const cameraBtn = document.getElementById('cameraBtn');
+            const lightStatus = document.getElementById('lightStatus');
+            const scoreDisplay = document.getElementById('score');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const resetBtn = document.getElementById('resetBtn');
 
-<script src="../js/jogo.js"></script>
-</body>
-</html>
+            let character = {
+                x: 50,
+                y: 190,
+                width: 50,
+                height: 80,
+                speed: 4,
+                direction: 1 
+            };
+
+            const lightZone = {
+                x: 260,
+                width: 80
+            };
+
+            let score = 0;
+            let gameActive = false;
+            let flashOpacity = 0;
+            let animationFrameId;
+            let textFeedback = "";
+            let textFeedbackTimer = 0;
+
+            startBtn.addEventListener('click', startGame);
+            cameraBtn.addEventListener('click', takePhoto);
+            resetBtn.addEventListener('click', resetGame);
+
+            function startGame() {
+                score = 0;
+                gameActive = true;
+                startBtn.disabled = true;
+                cameraBtn.disabled = false;
+                lightStatus.innerText = "Buscando Ângulo... 🟡";
+                lightStatus.style.color = "#ffeaa7";
+                character.speed = 4.5 + Math.random() * 2; 
+                
+                gameLoop();
+            }
+
+            function gameLoop() {
+                if (!gameActive && flashOpacity <= 0) {
+                    cancelAnimationFrame(animationFrameId);
+                    return;
+                }
+
+                updatePhysics();
+                renderGraphics();
+
+                animationFrameId = requestAnimationFrame(gameLoop);
+            }
+
+            function updatePhysics() {
+                if (gameActive) {
+                    character.x += character.speed * character.direction;
+
+                    if (character.x + character.width > canvas.width) {
+                        character.direction = -1;
+                    } else if (character.x < 0) {
+                        character.direction = 1;
+                    }
+                }
+
+                if (flashOpacity > 0) {
+                    flashOpacity -= 0.06;
+                }
+
+                if (textFeedbackTimer > 0) {
+                    textFeedbackTimer--;
+                } else {
+                    textFeedback = "";
+                }
+            }
+
+            function renderGraphics() {
+                ctx.fillStyle = "#151a21";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#fffae6";
+                ctx.beginPath();
+                ctx.moveTo(300, 0);
+                ctx.lineTo(lightZone.x, canvas.height - 30);
+                ctx.lineTo(lightZone.x + lightZone.width, canvas.height - 30);
+                ctx.closePath();
+                ctx.globalAlpha = 0.12; 
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+
+                ctx.fillStyle = "#1f2833";
+                ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+
+                // Cabelo / Cabeça do Personagem
+                ctx.fillStyle = "#ffdbac";
+                ctx.beginPath();
+                ctx.arc(character.x + 25, character.y + 15, 14, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Roupa / Corpo
+                ctx.fillStyle = "#0984e3";
+                ctx.fillRect(character.x + 12, character.y + 29, 26, 45);
+
+                // Câmera Fotográfica na mão
+                ctx.fillStyle = "#2d3436";
+                if (character.direction === 1) {
+                    ctx.fillRect(character.x + 28, character.y + 34, 18, 12);
+                    ctx.fillStyle = "#00cec9";
+                    ctx.fillRect(character.x + 42, character.y + 38, 5, 4); 
+                } else {
+                    ctx.fillRect(character.x + 4, character.y + 34, 18, 12);
+                    ctx.fillStyle = "#00cec9";
+                    ctx.fillRect(character.x + 4, character.y + 38, 5, 4); 
+                }
+
