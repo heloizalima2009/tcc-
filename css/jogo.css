@@ -1,102 +1,438 @@
-.game-container {
-    max-width: 500px;
-    margin: 40px auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1a1a1a;
-    color: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
+:root {
+    --bg-container: #ffffff;
+    --cor-escura: #161616;
+    --cor-ouro: #d4af37;
+    --cor-salmao: #faaa8d; /* Pele salmão fofa */
+    --cor-cabelo: #151515;   /* Cabelo preto */
+    --cor-rosa: #ff74b1;     /* Vestido rosa */
+    --cor-roxo: #8a74ff;     /* Vestido roxo */
+}
+
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.jogo-container {
+    max-width: 460px;
+    width: 100%;
+    background: var(--bg-container);
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    box-sizing: border-box;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
-.game-container h2 {
-    margin-top: 0;
-    color: #fff;
+.titulo-jogo {
+    color: var(--cor-escura);
+    font-weight: bold;
+    margin: 0 0 5px 0;
 }
 
-.camera-view {
+.subtitulo-jogo {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 25px 0;
+    line-height: 1.4;
+}
+
+/* PAISAGEM DE ESTÚDIO COM QUADROS DECORATIVOS */
+.paisagem-estudio {
     position: relative;
     width: 100%;
-    height: 300px;
-    background-color: #333;
-    border-radius: 10px;
+    height: 320px;
+    background: #2c3e50; /* Parede do estúdio */
+    border-radius: 20px;
     overflow: hidden;
-    margin-bottom: 25px;
-    border: 4px solid #444;
+    border: 4px solid var(--cor-escura);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Quadros na Parede */
+.quadro {
+    position: absolute;
+    top: 25px;
+    background: #fff;
+    border: 4px solid #1a1a1a;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+.quadro.q1 { left: 30px; width: 50px; height: 50px; transform: rotate(-5deg); }
+.quadro.q2 { left: calc(50% - 25px); width: 60px; height: 45px; }
+.quadro.q3 { right: 30px; width: 45px; height: 55px; transform: rotate(4deg); }
 
-.photo-layer {
+.foto-interna {
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.fundo-estudio-infinito {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 100%;
-    background-image: url('https://http2.mlstatic.com/D_NQ_733048-MLA96179460366_102025-OO.jpg');
-    background-size: cover;
-    background-position: center;
-    transition: filter 0.1s ease-out;
+    height: 75px;
+    background: #1e272e; /* Chão do estúdio */
+    border-top: 3px solid #10151a;
+    z-index: 1;
 }
 
-.grid-lines {
+/* Holofotes */
+.holofote {
+    position: absolute;
+    top: 15px;
+    width: 24px;
+    height: 24px;
+    background: #7f8c8d;
+    border-radius: 50%;
+    border: 2px solid #000;
+    z-index: 2;
+}
+.holofote.esquerdo { left: 95px; }
+.holofote.direito { right: 95px; }
+
+.luz-cone {
+    position: absolute;
+    top: 12px;
+    left: -38px;
+    width: 100px;
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
+    clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+    pointer-events: none;
+}
+
+/* Flash */
+.efeito-flash {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    background: #ffffff;
+    opacity: 0;
+    z-index: 10;
     pointer-events: none;
-    opacity: 0.25;
+}
+.piscar-flash {
+    animation: flashAnim 0.3s ease-out;
 }
 
-.grid-cell {
-    border: 1px dashed #ffffff;
+/* CONFIGURAÇÃO DAS PERSONAGEM ANIMADAS */
+.fotografa {
+    position: absolute;
+    width: 100px;
+    height: 220px;
+    bottom: 15px;
+    z-index: 3;
 }
-.control-group {
-    margin: 20px 0;
-    text-align: left;
+.fotografa.gordinha { 
+    left: 10px; 
+    animation: mexerCorpoEsquerda 2s ease-in-out infinite alternate;
 }
-
-.control-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #ddd;
-}
-
-.control-group input[type="range"] {
-    width: 100%;
-    accent-color: #ff4757;
-    cursor: pointer;
+.fotografa.magrinha { 
+    right: 10px; 
+    animation: mexerCorpoDireita 1.8s ease-in-out infinite alternate;
 }
 
-#btn-snap {
+/* Cabeça com Olhos Reais */
+.cabeca-rosto {
+    position: absolute;
+    top: 12px;
+    left: calc(50% - 26px);
+    width: 52px;
+    height: 50px;
+    background: var(--cor-salmao);
+    border-radius: 50%;
+    z-index: 3;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+.olhos-vivos {
+    position: absolute;
+    top: 16px;
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 1px solid #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: piscarOlho 4s infinite linear;
+}
+.olhos-vivos.esquerdo { left: 9px; }
+.olhos-vivos.direito { right: 9px; }
+
+.pupila {
+    width: 5px;
+    height: 5px;
+    background: #111;
+    border-radius: 50%;
+}
+
+.bochechas-rosadas {
+    position: absolute;
+    top: 26px;
+    left: 6px;
+    width: 40px;
+    height: 6px;
+    background: rgba(255, 82, 82, 0.35);
+    border-radius: 10px;
+}
+
+.sorriso-fofo {
+    position: absolute;
+    bottom: 8px;
+    left: 20px;
+    width: 12px;
+    height: 6px;
     background: #ff4757;
-    color: white;
-    border: none;
-    padding: 14px 35px;
-    font-size: 18px;
+    border-radius: 0 0 10px 10px;
+}
+
+/* BRAÇOS DAS PERSONAGENS */
+.braco {
+    position: absolute;
+    top: 65px;
+    width: 10px;
+    height: 35px;
+    background: var(--cor-salmao);
+    border-radius: 5px;
+    z-index: 4;
+}
+.gordinha .braco.esquerdo { left: 14px; transform: rotate(30deg); }
+.gordinha .braco.direito { right: 5px; transform: rotate(-45deg); animation: moverBraco 1s ease-in-out infinite alternate; }
+
+.magrinha .braco.esquerdo { left: 5px; transform: rotate(45deg); animation: moverBraco 1.2s ease-in-out infinite alternate-reverse; }
+.magrinha .braco.direito { right: 14px; transform: rotate(-30deg); }
+
+/* CORPOS COM VESTIDOS EM TRIÂNGULO COMPLETO (Usando Clip-Path geométrico moderno) */
+/* 1. GORDINHA (ESQUERDA) */
+.cabelo-curto {
+    position: absolute;
+    top: 3px;
+    left: calc(50% - 28px);
+    width: 56px;
+    height: 36px;
+    background: var(--cor-cabelo);
+    border-radius: 20px 20px 5px 5px;
+    z-index: 2;
+}
+.vestido-rosa-gordinho {
+    position: absolute;
+    top: 56px;
+    left: calc(50% - 30px);
+    width: 60px; /* Base mais larga para dar o aspecto fofinho */
+    height: 70px;
+    background: var(--cor-rosa);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Transforma o bloco em Triângulo */
+    z-index: 2;
+}
+
+/* 2. MAGRINHA (DIREITA) */
+.laco-rosa {
+    position: absolute;
+    top: -12px;
+    left: 22px;
+    font-size: 20px;
+    z-index: 5;
+    transform: rotate(-10deg);
+}
+.cabelo-comprido {
+    position: absolute;
+    top: 2px;
+    left: calc(50% - 26px);
+    width: 52px;
+    height: 105px;
+    background: var(--cor-cabelo);
+    border-radius: 25px 25px 10px 10px;
+    z-index: 2;
+}
+.vestido-roxo-magrinho {
+    position: absolute;
+    top: 56px;
+    left: calc(50% - 21px);
+    width: 42px; /* Silhueta triangular esguia */
+    height: 70px;
+    background: var(--cor-roxo);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%); /* Transforma o bloco em Triângulo */
+    z-index: 2;
+}
+
+/* PERNAS */
+.perna-fofa {
+    position: absolute;
+    bottom: 50px;
+    width: 10px;
+    height: 50px;
+    background: var(--cor-salmao);
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+}
+.gordinha .perna-fofa { border-bottom: 8px solid var(--cor-rosa); }
+.magrinha .perna-fofa { border-bottom: 8px solid var(--cor-roxo); }
+
+.perna-fofa.esquerda { left: 32px; animation: balançoPerna 0.5s linear infinite alternate; }
+.perna-fofa.direita { right: 32px; animation: balançoPerna 0.5s linear infinite alternate-reverse; }
+
+/* CÂMERAS */
+.camera-fofa {
+    position: absolute;
+    width: 32px;
+    height: 22px;
+    background: #252627;
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 4px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.camera-fofa.c1 { top: 78px; right: -6px; }
+.camera-fofa.c2 { top: 78px; left: -6px; }
+
+/* CARD CENTRALIZADO PERFECT */
+.card-promocao {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 25px;
+    border-radius: 16px;
+    width: 80%;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    transform: scale(0.8);
+    opacity: 0;
+    z-index: 5;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.card-promocao.revelado {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.selo-promo {
+    background: var(--cor-rosa);
+    color: #fff;
+    font-size: 10px;
     font-weight: bold;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
     letter-spacing: 1px;
-    margin-top: 10px;
 }
 
-#btn-snap:hover {
-    background: #ff6b81;
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+.card-promocao h3 {
+    font-size: 38px;
+    color: #111;
+    margin: 12px 0 4px 0;
+    font-weight: 800;
 }
 
+.card-promocao p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    font-weight: 600;
+}
 
-#result {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    min-height: 50px;
-    line-height: 1.5;
+/* Controles */
+.area-controles {
+    margin-top: 25px;
+}
+
+.btn-disparar {
+    background: var(--cor-escura);
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 1px;
+}
+
+/* Formulário */
+.formulario-resgate {
+    display: none;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #eee;
+    animation: fluir 0.5s ease forwards;
+}
+
+.formulario-resgate input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.btn-resgatar {
+    background: var(--cor-ouro);
+    color: #111;
+    border: none;
+    padding: 15px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* ANIMAÇÕES */
+@keyframes mexerCorpoEsquerda {
+    0% { transform: translateY(0) rotate(-1deg); }
+    100% { transform: translateY(-5px) rotate(1deg); }
+}
+
+@keyframes mexerCorpoDireita {
+    0% { transform: translateY(-4px) rotate(1deg); }
+    100% { transform: translateY(1px) rotate(-1deg); }
+}
+
+@keyframes balançoPerna {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+@keyframes moverBraco {
+    0% { transform: translateY(0) rotate(-45deg); }
+    100% { transform: translateY(-2px) rotate(-40deg); }
+}
+
+@keyframes piscarOlho {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0); }
+}
+
+@keyframes flashAnim {
+    0% { opacity: 0; }
+    30% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes fluir {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

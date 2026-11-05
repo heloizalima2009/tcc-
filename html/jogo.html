@@ -3,43 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafio do Fotógrafo - O Enquadramento Perfeito</title>
-  
-    <link rel="stylesheet" href="/css/jogo.css">
+    <title>Estúdio Fotográfico Premiado</title>
+    <!-- Vincula o arquivo CSS corrigido saindo da pasta html -->
+    <link rel="stylesheet" href="../css/jogo.css">
 </head>
 <body>
 
-    <div class="game-container">
-        <h2>📸 Desafio do Fotógrafo</h2>
-        <p>Ajuste os controles abaixo para conseguir a foto perfeita!</p>
+<div class="jogo-container">
+    <h2 class="titulo-jogo">📸 Sessão de Fotos Premiada</h2>
+    <p class="subtitulo-jogo">Nossas fotógrafas estão mudando de pose na galeria! Clique para registrar o clique perfeito!</p>
+
+    <!-- Cenário de Galeria de Fotos e Estúdio Profissional -->
+    <div class="paisagem-estudio">
+        <div class="efeito-flash" id="flash"></div>
         
-        <div class="camera-view">
-           
-            <div id="photo" class="photo-layer"></div>
-            
-      
-            <div class="grid-lines">
-                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
-                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+        <!-- Elementos Decorativos da Parede (Quadros de Fotos) -->
+        <div class="quadro q1"><div class="foto-interna">🌅</div></div>
+        <div class="quadro q2"><div class="foto-interna">✨</div></div>
+        <div class="quadro q3"><div class="foto-interna">🌿</div></div>
+        
+        <div class="fundo-estudio-infinito"></div>
+        <div class="holofote esquerdo"><div class="luz-cone"></div></div>
+        <div class="holofote direito"><div class="luz-cone"></div></div>
+
+        <!-- FOTÓGRAFA 1 (Esquerda): Gordinha, Vestido Triângulo Rosa com Braços e Pernas -->
+        <div class="fotografa gordinha" id="fotografa1">
+            <div class="cabelo-curto"></div>
+            <div class="cabeca-rosto">
+                <div class="olhos-vivos esquerdo"><div class="pupila"></div></div>
+                <div class="olhos-vivos direito"><div class="pupila"></div></div>
+                <div class="bochechas-rosadas"></div>
+                <div class="sorriso-fofo"></div>
             </div>
+            <!-- Vestido em formato de Triângulo Largo -->
+            <div class="vestido-triangulo-largo"></div>
+            <div class="braco esquerdo"></div>
+            <div class="braco direito"></div>
+            <div class="perna-fofa esquerda"></div>
+            <div class="perna-fofa direita"></div>
+            <div class="camera-fofa c1">[ • ]</div>
         </div>
 
-        <div class="control-group">
-            <label for="exposure">☀️ Exposição (Luz)</label>
-            <input type="range" id="exposure" min="0" max="200" value="50">
+        <!-- FOTÓGRAFA 2 (Direita): Magra, Cabelo Comprido com Laço, Vestido Triângulo Roxo com Braços e Pernas -->
+        <div class="fotografa magrinha" id="fotografa2">
+            <div class="laco-rosa">🎀</div>
+            <div class="cabelo-comprido"></div>
+            <div class="cabeca-rosto">
+                <div class="olhos-vivos esquerdo"><div class="pupila"></div></div>
+                <div class="olhos-vivos direito"><div class="pupila"></div></div>
+                <div class="bochechas-rosadas"></div>
+                <div class="sorriso-fofo"></div>
+            </div>
+            <!-- Vestido em formato de Triângulo Estreito -->
+            <div class="vestido-triangulo-estreito"></div>
+            <div class="braco esquerdo"></div>
+            <div class="braco direito"></div>
+            <div class="perna-fofa esquerda"></div>
+            <div class="perna-fofa direita"></div>
+            <div class="camera-fofa c2">[ • ]</div>
         </div>
 
-        <div class="control-group">
-            <label for="blur">🔍 Foco (Nitidez)</label>
-            <input type="range" id="blur" min="0" max="20" value="15">
+        <!-- Card de Promoções Totalmente Centralizado -->
+        <div class="card-promocao" id="cardPromo">
+            <span class="selo-promo">PROMOÇÃO DESBLOQUEADA!</span>
+            <h3 id="texto-desconto">25% OFF</h3>
+            <p id="texto-brinde">+ 5 Fotos Brinde no Ensaio</p>
         </div>
-
-        <button id="btn-snap">📸 Capturar Foto</button>
-
-        <div id="result"></div>
     </div>
 
-    <script src="/js/jogo.js"></script>
+    <div class="area-controles">
+        <button id="btnDisparar" class="btn-disparar">📸 CAPTURAR SESSÃO!</button>
+    </div>
+
+    <!-- Formulário pós-clique -->
+    <div class="formulario-resgate" id="formResgate">
+        <h3>🎯 Enquadramento Perfeito!</h3>
+        <p class="subtitulo-jogo">Insira seu WhatsApp para que o nosso estúdio libere o código do seu presente:</p>
+        <form id="meuFormulario">
+            <input type="text" id="nomeCliente" placeholder="Seu Nome Completo" required><br>
+            <input type="tel" id="whatsappCliente" placeholder="Seu WhatsApp (com DDD)" required><br>
+            <button type="submit" class="btn-resgatar">Resgatar Presente</button>
+        </form>
+    </div>
+</div>
+
+<script src="../js/jogo.js"></script>
 </body>
 </html>

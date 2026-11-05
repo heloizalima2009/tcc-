@@ -1,47 +1,55 @@
-const IDEAL_EXPOSURE = 100; 
-const IDEAL_BLUR = 0;       
+const btnDisparar = document.getElementById('btnDisparar');
+const flash = document.getElementById('flash');
+const cardPromo = document.getElementById('cardPromo');
+const formResgate = document.getElementById('formResgate');
+const meuFormulario = document.getElementById('meuFormulario');
+const fotografa1 = document.getElementById('fotografa1');
+const fotografa2 = document.getElementById('fotografa2');
 
+// Banco Ampliado com Opções de Promoções
+const opcoesPremios = [
+    { desc: "25% OFF", detalhe: "No Ensaio de Retrato ou Portfólio Individual" },
+    { desc: "15% OFF", detalhe: "+ Combo de 8 Fotos Extras Tratadas de Bônus" },
+    { desc: "30% OFF", detalhe: "No Segundo Ensaio Familiar ou Infantil" },
+    { desc: "GANHOU!", detalhe: "1 Álbum de Fotos com Bolsa de Brinde" },
+    { desc: "BRINDE", detalhe: "1 Ensaio Mini Externo de 20 minutos Grátis" }
+];
 
-const exposureSlider = document.getElementById('exposure');
-const blurSlider = document.getElementById('blur');
-const photo = document.getElementById('photo');
-const btnSnap = document.getElementById('btn-snap');
-const resultDiv = document.getElementById('result');
+const sorteioPromocao = opcoesPremios[Math.floor(Math.random() * opcoesPremios.length)];
+document.getElementById('texto-desconto').innerText = sorteioPromocao.desc;
+document.getElementById('texto-brinde').innerText = sorteioPromocao.detalhe;
 
+btnDisparar.addEventListener('click', () => {
+    btnDisparar.style.display = 'none';
 
-
-
-function updateVisuals() {
-    const expValue = exposureSlider.value;
-    const blurValue = blurSlider.value;
-
+    // Congela a animação de pose das duas meninas e braços articulados no clique
+    fotografa1.style.animation = 'none';
+    fotografa2.style.animation = 'none';
     
-    photo.style.filter = `brightness(${expValue}%) blur(${blurValue}px)`;
-}
+    const bracos = document.querySelectorAll('.braco');
+    bracos.forEach(b => b.style.animation = 'none');
 
- 
-function takePhoto() {
-    const currentExposure = parseInt(exposureSlider.value, 10);
-    const currentBlur = parseInt(blurSlider.value, 10);
+    // Dispara o flash químico do estúdio
+    flash.classList.add('piscar-flash');
+
+    setTimeout(() => {
+        cardPromo.classList.add('revelado');
+        
+        setTimeout(() => {
+            formResgate.style.display = 'block';
+        }, 300);
+    }, 200);
+});
+
+meuFormulario.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nome = document.getElementById('nomeCliente').value;
+    const cupomGanho = sorteioPromocao.desc + " - " + sorteioPromocao.detalhe;
     
-    const exposureDiff = Math.abs(currentExposure - IDEAL_EXPOSURE)
-    const blurDiff = Math.abs(currentBlur - IDEAL_BLUR) * 5; 
+    const seuWhatsappNumero = "5541999999999"; // Substitua pelo seu WhatsApp real
     
-    let score = 100 - (exposureDiff + blurDiff)
-    if (score < 0) score = 0;
-    score = Math.round(score);
-
-    if (score >= 90) {
-        resultDiv.innerHTML = `⭐ Pontuação: ${score}/100<br><span style="color: #2ed573;">Incrível! Você tem olhos de fotógrafo profissional! 📸</span>`;
-    } else if (score >= 70) {
-        resultDiv.innerHTML = `⭐ Pontuação: ${score}/100<br><span style="color: #ffa502;">Quase lá! A foto ficou legal, mas o ajuste fino pode melhorar.</span>`;
-    } else {
-        resultDiv.innerHTML = `⭐ Pontuação: ${score}/100<br><span style="color: #ff4757;">A foto não ficou muito boa... Que tal deixar isso com quem entende e agendar um ensaio profissional? 😉</span>`;
-    }
-}
-exposureSlider.addEventListener('input', updateVisuals);
-blurSlider.addEventListener('input', updateVisuals);
-
-btnSnap.addEventListener('click', takePhoto);
-
-updateVisuals();
+    const textoMensagem = encodeURIComponent(`Olá! Meu nome é ${nome} e participei da Sessão de Fotos Premiada no seu site! Desbloqueei a promoção: ${cupomGanho}. Quero fazer meu agendamento!`);
+    
+    window.open(`https://wa.me{seuWhatsappNumero}?text=${textoMensagem}`, '_blank');
+    this.reset();
+});
