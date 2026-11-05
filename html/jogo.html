@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio do Fotógrafo - O Enquadramento Perfeito</title>
+  
+    <link rel="stylesheet" href="/css/jogo.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <h2>📸 Desafio do Fotógrafo</h2>
+        <p>Ajuste os controles abaixo para conseguir a foto perfeita!</p>
+        
+        <div class="camera-view">
+           
+            <div id="photo" class="photo-layer"></div>
+            
+      
+            <div class="grid-lines">
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="exposure">☀️ Exposição (Luz)</label>
+            <input type="range" id="exposure" min="0" max="200" value="50">
+        </div>
+
+        <div class="control-group">
+            <label for="blur">🔍 Foco (Nitidez)</label>
+            <input type="range" id="blur" min="0" max="20" value="15">
+        </div>
+
+        <button id="btn-snap">📸 Capturar Foto</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="/js/jogo.js"></script>
+</body>
+</html>

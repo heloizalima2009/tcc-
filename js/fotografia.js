@@ -1,38 +1,23 @@
+/ Aguarda o carregamento do DOM
 document.addEventListener("DOMContentLoaded", () => {
-    const counters = document.querySelectorAll('.counter');
-    const speed = 60; // Quanto menor, mais rápida é a animação numérica
+    // Seleciona todos os links do menu que apontam para IDs internos
+    const menuLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
-    counters.forEach(counter => {
-        const updateCount = () => {
-            const target = +counter.getAttribute('data-target');
-            const count = +counter.innerText;
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Evita o pulo brusco padrão
 
-            // Define o incremento por passo
-            const inc = Math.ceil(target / speed);
+            // Pega o ID do destino (ex: #servicos)
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
 
-            // Verifica se o valor final foi alcançado
-            if (count < target) {
-                // Adiciona o incremento e roda novamente
-                if(target === 2400) {
-                    // Formata a exibição do "2.4k" de forma simples
-                    if (count + inc >= target) {
-                        counter.innerText = "2.4k";
-                    } else {
-                        counter.innerText = ((count + inc)/1000).toFixed(1) + "k";
-                    }
-                } else {
-                    counter.innerText = count + inc;
-                }
-                setTimeout(updateCount, 20);
-            } else {
-                if(target === 2400) {
-                    counter.innerText = "2.4k";
-                } else {
-                    counter.innerText = target;
-                }
+            if (targetSection) {
+                // Rola suavemente até a seção desejada
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
-        };
-
-        updateCount();
+        });
     });
 });
