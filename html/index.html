@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estúdio Lima - Fine Art Capture</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <header>
+            <h1>Estúdio Lima</h1>
+            <p><strong>DESAFIO 100% FOCO:</strong> Centralize a moldura perfeitamente no alvo dourado para revelar a obra de arte e garantir o desconto máximo!</p>
+        </header>
+
+        <div class="studio-stage">
+            <!-- Alvo de Enquadramento Fixo no Centro -->
+            <div class="camera-focus"></div>
+
+            <!-- Quadro Deslizante que o jogador precisa capturar -->
+            <div class="moving-frame move-animation" id="photoFrame">
+                <div class="art-canvas"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="shoot-btn">Tirar Foto</button>
+        </div>
+    </div>
+
+    <!-- Modal de Resultado/Promoção -->
+    <div id="promo-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="flash-effect" id="flash"></div>
+            <h2 id="promo-title">📸 Resultado da Captura</h2>
+            <p id="promo-feedback">Análise de enquadramento concluída.</p>
+            <div class="promo-card">
+                <h3>Sua Recompensa Estúdio Lima:</h3>
+                <p id="prize-text">---</p>
+                <div class="coupon-box">---</div>
+            </div>
+            <button id="close-modal-btn">Tentar Novamente</button>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>

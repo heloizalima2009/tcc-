@@ -1,0 +1,191 @@
+/* Configurações Globais - Estúdio Lima */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+    background-color: #0b0b0b;
+    color: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    max-width: 800px;
+    width: 95%;
+    background: #141414;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+    text-align: center;
+    border: 1px solid #2a2a2a;
+}
+
+h1 {
+    margin: 0 0 5px 0;
+    color: #dfba73;
+    letter-spacing: 2px;
+    font-size: 2.2rem;
+    text-transform: uppercase;
+}
+
+p {
+    font-family: 'Segoe UI', sans-serif;
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+/* --- CENÁRIO DO ESTÚDIO --- */
+.studio-stage {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(to bottom, #1c1c1c 0%, #121212 72%, #0a0806 72%, #14100d 100%);
+    border: 1px solid #333;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 25px 0;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.95);
+}
+
+/* Alvo/Foco Centralizado Estrito */
+.camera-focus {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 145px;
+    height: 105px;
+    border: 2px dashed #dfba73;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 5;
+}
+.camera-focus::before {
+    content: 'CENTRO DE FOCO';
+    position: absolute;
+    top: -22px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.7rem;
+    color: #dfba73;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* --- O QUADRO DE FOTO MÓVEL --- */
+.moving-frame {
+    position: absolute;
+    width: 135px;
+    height: 95px;
+    top: 125px;
+    left: -150px;
+    background: #000;
+    border: 4px solid #dfba73; /* Moldura Dourada Nobre */
+    box-shadow: 0 12px 25px rgba(0,0,0,0.7);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Arte/Paisagem dentro do Quadro deslizante */
+.art-canvas {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #2c3e50, #2980b9);
+    position: relative;
+}
+.art-canvas::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: -10px;
+    width: 0; height: 0;
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-bottom: 70px solid #1a252f;
+}
+.art-canvas::after {
+    content: '';
+    position: absolute;
+    width: 30px; height: 30px;
+    background: #f1c40f;
+    border-radius: 50%;
+    top: 15px; left: 25px;
+    box-shadow: 0 0 15px #f1c40f;
+}
+
+/* Velocidade rápida e linear para exigir alta precisão */
+.move-animation {
+    animation: slideAcross 1.9s linear infinite;
+}
+
+@keyframes slideAcross {
+    0% { left: -150px; }
+    100% { left: 100%; }
+}
+
+/* --- INTERFACE E BOTÃO --- */
+#shoot-btn {
+    background: transparent;
+    color: #dfba73;
+    border: 1px solid #dfba73;
+    padding: 16px 60px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.4s ease;
+}
+#shoot-btn:hover {
+    background: #dfba73;
+    color: #121212;
+    box-shadow: 0 0 25px rgba(223, 186, 115, 0.3);
+}
+
+/* Janela Modal do Cupom */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 5, 5, 0.95);
+    display: flex; justify-content: center; align-items: center; z-index: 100;
+}
+.modal-content {
+    background: #111111; padding: 45px; border-radius: 12px;
+    text-align: center; max-width: 440px; width: 85%;
+    border: 1px solid #dfba73; position: relative; overflow: hidden;
+}
+
+.flash-effect {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fff; opacity: 0; pointer-events: none; z-index: 10;
+}
+.flash-active { animation: flashTrigger 0.25s ease-out; }
+@keyframes flashTrigger { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+.promo-card {
+    background: #080808; border-radius: 6px; padding: 25px;
+    margin: 20px 0; border: 1px solid #222;
+}
+.promo-card h3 { margin: 0; color: #777; font-size: 0.8rem; text-transform: uppercase; }
+#prize-text { color: #dfba73; font-size: 1.25rem; font-weight: bold; margin: 15px 0; }
+
+.coupon-box {
+    background: #111; border: 1px dashed #dfba73; padding: 14px;
+    font-size: 1.35rem; font-weight: bold; color: #dfba73;
+    letter-spacing: 3px; border-radius: 4px; margin-top: 15px;
+}
+
+#close-modal-btn {
+    background: transparent; color: #dfba73; border: 1px solid #dfba73;
+    padding: 12px 40px; border-radius: 4px; font-weight: bold; cursor: pointer;
+    font-family: 'Georgia', serif; text-transform: uppercase; font-size: 0.85rem;
+}
+#close-modal-btn:hover { background: #dfba73; color: #121212; }
+.hidden { display: none !important; }
